@@ -1,0 +1,86 @@
+.login-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  top: 15px;
+  right: 10px;
+}
+
+.signup-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  top: 15px;
+  right: 10px;
+}
+
+.form-title {
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  position: relative;
+}
+
+.form-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.form-row {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 3px;
+}
+
+.form-label {
+  position: relative;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 10px;
+}
+
+.form-input {
+  position: relative;
+}
+
+input {
+  border: #000000 solid 1px;
+}
+
+.form-buttons {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 3px;
+}
+
+.login-btn {
+  position: relative;
+  margin: 1px;
+}
+
+.signup-btn {
+  position: relative;
+  margin: 1px;
+}
+
+button {
+  border: #ae0001 outset 2px;
+  background-color: #740001;
+  color: #ffffff;
+}
+
+.form-message {
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 10px;
+}

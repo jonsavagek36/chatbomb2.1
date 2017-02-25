@@ -1,0 +1,91 @@
+
+
+.menu-bar {
+  position: relative;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 10px;
+}
+
+.menu-button {
+  position: relative;
+  width: 28%;
+  left: 15px;
+  cursor: pointer;
+}
+
+.menu-notify {
+  position: relative;
+  width: 8%;
+}
+
+.chatbomb-body {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-title {
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  position: relative;
+  top: 5px;
+}
+
+.page-body {
+
+}
+
+.friends-list {
+
+}
+
+.name-plate {
+
+}
+
+.view-profile {
+
+}
+
+.edit-profile {
+
+}
+
+.send-requests {
+
+}
+
+.view-requests {
+
+}
+
+.chat-box {
+
+}
+
+.chat-header {
+
+}
+
+.chat-body {
+
+}
+
+.live-chat {
+
+}
+
+.chat-send {
+
+}
