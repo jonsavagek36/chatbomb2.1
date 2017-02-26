@@ -87,25 +87,73 @@
 }
 
 .request-plate {
-  
+
 }
 
 .chat-box {
-
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .chat-header {
+  position: relative;
+  width: 100%;
+  height: 15%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
+.header-name {
+  position: relative;
+  width: 20%;
+}
+
+.header-timer {
+  position: relative;
+  width: 10%;
+}
+
+.header-buttons {
+  position: relative;
+  width: 70%;
 }
 
 .chat-body {
-
+  position: relative;
+  width: 100%;
+  height: 70%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .live-chat {
-
+  position: relative;
+  width: 100%;
+  height: 7.5%;
 }
 
 .chat-send {
+  position: relative;
+  width: 100%;
+  height: 7.5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
+.send-box {
+  position: relative;
+  width: 80%;
+}
+
+.send-btn {
+  position: relative;
+  width: 20%;
 }
