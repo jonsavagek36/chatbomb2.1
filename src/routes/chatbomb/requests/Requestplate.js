@@ -15,7 +15,7 @@ class Requestplate extends Component {
           <div className='request-email'>{this.props.request.request_email}</div>
         </div>
         <div className='accept-request'>
-          <div className='accept-button'><button>Accept Request</button></div>
+          <div className='accept-button'><button onClick={this.props.acceptRequest}>Accept Request</button></div>
         </div>
       </div>
     );

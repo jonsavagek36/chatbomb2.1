@@ -17,7 +17,7 @@ class Requests extends Component {
         <div className='page-body'>
           <SendInvite sendInvite={this.props.sendInvite} />
           <SendRequests sendRequest={this.props.sendRequest} />
-          <ViewRequests requests={this.props.requests} />
+          <ViewRequests requests={this.props.requests} acceptRequest={acceptRequest} />
         </div>
       </div>
     );
