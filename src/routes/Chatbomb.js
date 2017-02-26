@@ -21,16 +21,19 @@ class Chatbomb extends Component {
   }
 
   componentDidMount() {
-    let user_profile = getProfile();
-    let user_friends = getFriends();
-    let user_requests = getRequests();
+    let get_profile = getProfile();
+    let user_profile = {
+      id: get_profile.id,
+      email: get_profile.email,
+      screen_name: get_profile.screen_name
+    };
     this.setState({
       profile: user_profile,
-      friends: user_friends,
-      requests: user_requests
+      friends: get_profile.friends,
+      requests: get_profile.requests
     });
   }
- 
+
   updateView(newView) {
     this.setState({ view: newView });
   }
