@@ -8,6 +8,8 @@ import Chat from './chatbomb/chat/Chat';
 
 import { getProfile, getFriends, getRequests, sendRequest, sendInvite, acceptRequest } from './fetchCalls';
 
+let socket = io.connect('http://localhost:5000');
+
 class Chatbomb extends Component {
   constructor(props) {
     super(props);
