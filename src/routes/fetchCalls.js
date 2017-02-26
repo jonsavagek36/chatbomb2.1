@@ -205,3 +205,36 @@ exports.sendRequest = function() {
       nameNode.value = '';
     })
 }
+
+exports.sendInvite = function() {
+  let emailNode = document.getElementById('invite-email');
+  let messageNode = document.getElementById('invite-message');
+  messageNode.textContent = null;
+  if (emailNode.value) {
+    let fetchBody = {
+      invite_email: emailNode.value
+    };
+    let token = sessionStorage.getItem('token');
+    let myHeaders = new Headers();
+    myHeaders.append('x-access-token', token);
+    fetch('/api/v1/invite/send', {
+      method: 'POST',
+      headers: myHeaders
+    })
+      .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          console.log('Failed to send invite');
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        let msg = data.message;
+        messageNode.textContent = msg;
+        emailNode.value = '';
+      })
+  } else {
+    messageNode.textContent = 'You must input an e-mail address.';
+  }
+}

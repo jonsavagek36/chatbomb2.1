@@ -9,6 +9,7 @@ let cfg = require('./config/config.js');
 
 let users = require('./api/v1/users_controller');
 let requests = require('./api/v1/requests_controller');
+let mailer = require('./api/v1/mailer');
 
 let chatbomb = require('./chatbomb');
 
@@ -34,6 +35,8 @@ app.get('/api/v1/users/friends', auth.authenticate(), users.friendlist);
 app.get('/api/v1/users/requests', auth.authenticate(), users.requests);
 
 app.post('/api/v1/requests/send', auth.authenticate(), requests.send_request);
+
+app.post('/api/v1/invite/send', auth.authenticate(), mailer.send_invite);
 
 let io = require('socket.io')(http);
 
