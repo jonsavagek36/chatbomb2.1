@@ -6,7 +6,7 @@ import Requests from './chatbomb/requests/Requests';
 import Friends from './chatbomb/friends/Friends';
 import Chat from './chatbomb/chat/Chat';
 
-import { getProfile, getFriends, getRequests } from './fetchCalls';
+import { getProfile, getFriends, getRequests, sendRequest } from './fetchCalls';
 
 class Chatbomb extends Component {
   constructor(props) {
@@ -21,16 +21,19 @@ class Chatbomb extends Component {
   }
 
   componentDidMount() {
-    let user_profile = getProfile();
-    let user_friends = getFriends();
-    let user_requests = getRequests();
+    let get_profile = getProfile();
+    let user_profile = {
+      id: get_profile.id,
+      email: get_profile.email,
+      screen_name: get_profile.screen_name
+    };
     this.setState({
       profile: user_profile,
-      friends: user_friends,
-      requests: user_requests
+      friends: get_profile.friends,
+      requests: get_profile.requests
     });
   }
- 
+
   updateView(newView) {
     this.setState({ view: newView });
   }
@@ -40,7 +43,7 @@ class Chatbomb extends Component {
     if (this.state.view == 'profile') {
       view = <Profile profile={this.state.profile} />;
     } else if (this.state.view == 'requests') {
-      view = <Requests requests={this.state.requests} />;
+      view = <Requests requests={this.state.requests} sendRequest={sendRequest} />;
     } else if (this.state.view == 'friends') {
       view = <Friends friends={this.state.friends} />;
     } else if (this.state.view == 'chat') {

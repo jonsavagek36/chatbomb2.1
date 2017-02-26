@@ -14,7 +14,7 @@ class Requests extends Component {
       <div>
         <div className='page-title'>Friend Requests</div>
         <div className='page-body'>
-          <SendRequests />
+          <SendRequests sendRequest={this.props.sendRequest} />
           <ViewRequests />
         </div>
       </div>

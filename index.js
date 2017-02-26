@@ -8,6 +8,7 @@ let auth = require('./auth.js')();
 let cfg = require('./config/config.js');
 
 let users = require('./api/v1/users_controller');
+let requests = require('./api/v1/requests_controller');
 
 let chatbomb = require('./chatbomb');
 
@@ -31,6 +32,8 @@ app.get('/api/v1/users/testAuth', auth.authenticate(), function(req, res) {
 app.get('/api/v1/users/profile', auth.authenticate(), users.profile);
 app.get('/api/v1/users/friends', auth.authenticate(), users.friendlist);
 app.get('/api/v1/users/requests', auth.authenticate(), users.requests);
+
+app.post('/api/v1/requests/send', auth.authenticate(), requests.send_request);
 
 let io = require('socket.io')(http);
 

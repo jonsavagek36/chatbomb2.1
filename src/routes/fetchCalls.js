@@ -113,9 +113,13 @@ exports.getProfile = function() {
       let id = data.profile.id;
       let email = data.profile.email;
       let screen_name = data.profile.screen_name;
+      let friends = data.profile.friends;
+      let requests = data.profile.requests;
       profile.id = id;
       profile.email = email;
       profile.screen_name = screen_name;
+      profile.friends = friends;
+      profile.requests = requests;
     })
   return profile;
 }
@@ -138,9 +142,11 @@ exports.getFriends = function() {
     })
     .then(response => response.json())
     .then(data => {
-      data.friends.forEach(friend => {
-        friends.push(friend);
-      });
+      if (data.friends !== null) {
+        data.friends.forEach(friend => {
+          friends.push(friend);
+        });
+      }
     })
   return friends;
 }
@@ -163,9 +169,39 @@ exports.getRequests = function() {
     })
     .then(response => response.json())
     .then(data => {
-      data.requests.forEach(request => {
-        requests.push(request);
-      });
+      if (data.requests !== null) {
+        data.requests.forEach(request => {
+          requests.push(request);
+        });
+      }
     })
   return requests;
+}
+
+exports.sendRequest = function() {
+  let emailNode = document.getElementById('request-email');
+  let nameNode = document.getElementById('request-name');
+  let fetchBody = {
+    req_email: emailNode.value,
+    req_name: nameNode.value
+  };
+  let token = sessionStorage.getItem('token');
+  let myHeaders = new Headers();
+  myHeaders.append('x-access-token', token);
+  fetch('/api/v1/requests/send', {
+    method: 'POST',
+    headers: myHeaders
+  })
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        console.log('Failed to send request');
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      emailNode.value = '';
+      nameNode.value = '';
+    })
 }

@@ -43,31 +43,12 @@ exports.login = function(req, res) {
 }
 
 exports.profile = function(req, res) {
-  let user_profile = {
-    id: req.user.id,
-    email: req.user.email,
-    screen_name: req.user.screen_name
-  };
-  res.json({ profile: user_profile });
+  res.json({ profile: req.user });
 }
 
 exports.friendlist = function(req, res) {
   if (req.user.friends !== undefined) {
-    let friendlist = [];
-    req.user.friends.forEach(friend_id => {
-      User.find({ _id: friend_id }, function(err, user) {
-        if (err) throw err;
-        if (user) {
-          let friend = {
-            id: user[0].id,
-            email: user[0].email,
-            screen_name: user[0].screen_name
-          };
-          friendlist.push(friend);
-        }
-      });
-    });
-    res.json({ friends: friendlist });
+    res.json({ friends: req.user.friends });
   } else {
     res.json({ friends: null });
   }
@@ -75,21 +56,7 @@ exports.friendlist = function(req, res) {
 
 exports.requests = function(req, res) {
   if (req.user.requests !== undefined) {
-    let requestlist = [];
-    req.user.requests.forEach(request_id => {
-      User.find({ _id: request_id }, function(err, user) {
-        if (err) throw err;
-        if (user) {
-          let request = {
-            id: user[0].id,
-            email: user[0].email,
-            screen_name: user[0].screen_name
-          };
-          requestlist.push(request);
-        }
-      });
-    });
-    res.json({ requests: requestlist });
+    res.json({ requests: req.user.requests });
   } else {
     res.json({ requests: null });
   }
