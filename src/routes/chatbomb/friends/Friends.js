@@ -9,10 +9,10 @@ class Friends extends Component {
   }
 
   render() {
-    let friendlist = null;
-    if (this.props.friends !== undefined) {
-      friendlist = this.props.friends.map(friend => {
-        return <Nameplate friend={friend} />;
+    let online_friends = null;
+    if (this.props.online_friends !== undefined) {
+      online_friends = this.props.online_friends.map((friend, idx) => {
+        return <Nameplate friend={friend} key={idx} />;
       });
     }
     return (
@@ -20,7 +20,7 @@ class Friends extends Component {
         <div className='page-title'>Friends</div>
         <div className='page-body'>
           <div className='friends-list'>
-            {friendlist}
+            {online_friends}
           </div>
         </div>
       </div>

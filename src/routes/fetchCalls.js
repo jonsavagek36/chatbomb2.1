@@ -164,7 +164,7 @@ exports.getRequests = function() {
       if (response.ok) {
         return response;
       } else {
-        console.log('Failed to get response');
+        console.log('Failed to get response'); 
       }
     })
     .then(response => response.json())

@@ -16,7 +16,7 @@ class SendInvite extends Component {
             <div className='form-input'><input type='text' id='invite-email' /></div>
           </div>
           <div className='form-buttons'>
-            <div className='signup-btn'><button>Send Invite</button></div>
+            <div className='signup-btn'><button onClick={this.props.sendInvite}>Send Invite</button></div>
           </div>
           <div className='form-message' id='invite-message'></div>
         </div>

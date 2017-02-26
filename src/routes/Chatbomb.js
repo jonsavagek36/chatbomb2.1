@@ -6,7 +6,7 @@ import Requests from './chatbomb/requests/Requests';
 import Friends from './chatbomb/friends/Friends';
 import Chat from './chatbomb/chat/Chat';
 
-import { getProfile, getFriends, getRequests, sendRequest } from './fetchCalls';
+import { getProfile, getFriends, getRequests, sendRequest, sendInvite } from './fetchCalls';
 
 class Chatbomb extends Component {
   constructor(props) {
@@ -15,6 +15,7 @@ class Chatbomb extends Component {
       view: null,
       profile: {},
       friends: [],
+      online_friends: [],
       requests: []
     };
     this.updateView = this.updateView.bind(this);
@@ -43,9 +44,9 @@ class Chatbomb extends Component {
     if (this.state.view == 'profile') {
       view = <Profile profile={this.state.profile} />;
     } else if (this.state.view == 'requests') {
-      view = <Requests requests={this.state.requests} sendRequest={sendRequest} />;
+      view = <Requests requests={this.state.requests} sendRequest={sendRequest} sendInvite={sendInvite} />;
     } else if (this.state.view == 'friends') {
-      view = <Friends friends={this.state.friends} />;
+      view = <Friends friends={this.state.friends} online_friends={this.state.online_friends} />;
     } else if (this.state.view == 'chat') {
       view = <Chat />;
     } else {
