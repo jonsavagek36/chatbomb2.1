@@ -10,6 +10,14 @@ class Nameplate extends Component {
     return (
       <div>
         <div className='name-plate'>
+          <div className='friend-avatar'>
+          </div>
+          <div className='friend-email'>
+          </div>
+          <div className='friend-name'>
+          </div>
+          <div className='new-message'>
+          </div>
         </div>
       </div>
     );
