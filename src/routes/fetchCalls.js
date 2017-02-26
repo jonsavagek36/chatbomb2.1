@@ -164,7 +164,7 @@ exports.getRequests = function() {
       if (response.ok) {
         return response;
       } else {
-        console.log('Failed to get response'); 
+        console.log('Failed to get response');
       }
     })
     .then(response => response.json())
@@ -237,4 +237,28 @@ exports.sendInvite = function() {
   } else {
     messageNode.textContent = 'You must input an e-mail address.';
   }
+}
+
+exports.acceptRequest = function(request_info) {
+  let fetchBody = {
+    request: request_info
+  };
+  let token = sessionStorage.getItem('token');
+  let myHeaders = new Headers();
+  myHeaders.append('x-access-token', token);
+  fetch('/api/v1/requests/accept', {
+    method: 'POST',
+    headers: myHeaders
+  })
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        console.log('Failed to accept request');
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+
+    })
 }

@@ -35,6 +35,7 @@ app.get('/api/v1/users/friends', auth.authenticate(), users.friendlist);
 app.get('/api/v1/users/requests', auth.authenticate(), users.requests);
 
 app.post('/api/v1/requests/send', auth.authenticate(), requests.send_request);
+app.post('/api/v1/requests/accept', auth.authenticate(), requests.accept_request);
 
 app.post('/api/v1/invite/send', auth.authenticate(), mailer.send_invite);
 

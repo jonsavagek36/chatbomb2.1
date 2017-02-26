@@ -40,6 +40,7 @@ exports.send_request = function(req, res) {
         user.save(function(err) {
           if (err) {
             res.json({ message: err.message });
+            throw err;
           } else {
             res.json({ message: 'Request sent' });
           }
@@ -49,4 +50,45 @@ exports.send_request = function(req, res) {
   } else {
     res.json({ message: 'Must use e-mail or screen name' });
   }
+}
+
+exports.accept_request = function(req, res) {
+  User.find({ _id: req.user.id }, function(err, users) {
+    if (err) throw err;
+    if (users) {
+      let user = users[0];
+      let last = user.friends.length;
+      user.requests.id(req.body.request.id).remove();
+      user.friends[last].friend_id = req.body.request.request_id;
+      user.friends[last].friend_email = req.body.request.request_email;
+      user.friends[last].friend_name = req.body.request.request_name;
+      if (req.body.request.request_avatar !== undefined) {
+        user.friends[last].friend_avatar = req.body.request.request_avatar;
+      }
+      user.save(function(err) {
+        if (err) {
+          res.json({ message: err.message });
+          throw err;
+        } else {
+          res.json({ message: 'Friend added' });
+        }
+      });
+      User.find({ _id: req.body.request.request_id }, function(err, users) {
+        if (err) throw err;
+        if (users) {
+          let friend = users[0];
+          let last = friend.friends.length;
+          friend.friends[last].friend_id = user.id;
+          friend.friends[last].friend_email = user.email;
+          friend.friends[last].friend_name = user.screen_name;
+          if (user.avatar_url !== undefined) {
+            friend.friends[last].friend_avatar = user.avatar_url;
+          }
+          friend.save(function(err) {
+            if (err) throw err;
+          });
+        }
+      });
+    }
+  });
 }

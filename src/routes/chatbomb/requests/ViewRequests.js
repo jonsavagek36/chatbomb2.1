@@ -12,7 +12,10 @@ class ViewRequests extends Component {
     let requests = null;
     if (this.props.requests !== undefined) {
       requests = this.props.requests.map((request, idx) => {
-        return <Requestplate request={request} key={idx} />;
+        let acceptRequest = () => {
+          this.props.acceptRequest(request);
+        }
+        return <Requestplate request={request} acceptRequest={acceptRequest} key={idx} />;
       });
     }
     return (
