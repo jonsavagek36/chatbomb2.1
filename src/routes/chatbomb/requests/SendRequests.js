@@ -23,7 +23,7 @@ class SendRequests extends Component {
             </div>
             <div className='form-message' id='req-name-message'></div>
             <div className='form-buttons'>
-              <div className='signup-btn'><button>Send Request</button></div>
+              <div className='signup-btn'><button onClick={this.props.sendRequest}>Send Request</button></div>
             </div>
             <div className='form-message' id='req-message'></div>
           </div>
