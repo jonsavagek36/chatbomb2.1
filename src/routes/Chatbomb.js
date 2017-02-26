@@ -15,7 +15,7 @@ class Chatbomb extends Component {
       view: null,
       profile: {},
       friends: [],
-      requests: [] 
+      requests: []
     };
     this.updateView = this.updateView.bind(this);
   }
@@ -30,7 +30,7 @@ class Chatbomb extends Component {
       requests: user_requests
     });
   }
-
+ 
   updateView(newView) {
     this.setState({ view: newView });
   }
