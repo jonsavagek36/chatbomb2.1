@@ -9,6 +9,9 @@ class ChatHeader extends Component {
   render() {
     return (
       <div className='chat-header'>
+        <div className='header-name'></div>
+        <div className='header-timer'></div>
+        <div className='header-buttons'></div>
       </div>
     );
   }
