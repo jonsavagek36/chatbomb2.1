@@ -5,7 +5,7 @@
   justify-content: flex-end;
   align-items: flex-end;
   top: 15px;
-  right: 10px;
+  left: 350px;
 }
 
 .signup-page {
@@ -15,7 +15,7 @@
   justify-content: flex-end;
   align-items: flex-end;
   top: 15px;
-  right: 10px;
+  left: 350px;
 }
 
 .form-title {

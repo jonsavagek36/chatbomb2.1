@@ -5,7 +5,7 @@ class Menubar extends Component {
     super(props);
     this.state = {};
   }
- 
+
   render() {
     let getProfile = () => {
       this.props.updateView('profile');
@@ -18,26 +18,14 @@ class Menubar extends Component {
     }
     return (
       <div className='menu-bar'>
-        <div className='menu-button'>
-          <div className='menu-title' onClick={getProfile}>
-            Profile
-          </div>
-          <div className='menu-notify'>
-          </div>
+        <div className='menu-button' onClick={getProfile}>
+          Profile
         </div>
-        <div className='menu-button'>
-          <div className='menu-title' onClick={getRequests}>
-            Requests
-          </div>
-          <div className='menu-notify' id='request-notify'>
-          </div>
+        <div className='menu-button' onClick={getRequests}>
+          Requests
         </div>
-        <div className='menu-button'>
-          <div className='menu-title' onClick={getFriends}>
-            Friends
-          </div>
-          <div className='menu-notify' id='friends-notify'>
-          </div>
+        <div className='menu-button' onClick={getFriends}>
+          Friends
         </div>
       </div>
     );

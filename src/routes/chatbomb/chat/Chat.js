@@ -13,11 +13,16 @@ class Chat extends Component {
 
   render() {
     return (
-      <div className='chat-box'>
-        <ChatHeader />
-        <ChatBody />
-        <LiveChat />
-        <ChatSend />
+      <div className='main-body'>
+        <div className='page-title'>
+          <div className='banner'></div>
+        </div>
+        <div className='chat-body'>
+          <ChatHeader />
+          <ChatBody />
+          <LiveChat />
+          <ChatSend />
+        </div>
       </div>
     );
   }

@@ -19,9 +19,11 @@ class Profile extends Component {
       view = <EditProfile />;
     }
     return (
-      <div>
-        <div className='page-title'>Profile</div>
-        <div className='page-body'>
+      <div className='main-body'>
+        <div className='page-title'>
+          <div className='banner'>Profile</div>
+        </div>
+        <div className='profile-body'>
           {view}
         </div>
       </div>

@@ -9,7 +9,7 @@ class Nameplate extends Component {
   render() {
     return (
       <div>
-        <div className='name-plate'>
+        <div className='name-plate' onClick={this.props.selectFriend}>
           <div className='friend-avatar'>
           </div>
           <div className='friend-email'>

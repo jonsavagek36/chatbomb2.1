@@ -12,12 +12,18 @@ class Requests extends Component {
 
   render() {
     return (
-      <div>
-        <div className='page-title'>Friend Requests</div>
-        <div className='page-body'>
-          <SendInvite sendInvite={this.props.sendInvite} />
-          <SendRequests sendRequest={this.props.sendRequest} />
-          <ViewRequests requests={this.props.requests} acceptRequest={acceptRequest} />
+      <div className='main-body'>
+        <div className='page-title'>
+          <div className='banner'>Friend Requests</div>
+        </div>
+        <div className='requests-body'>
+          <div className='send-requests'>
+            <SendInvite sendInvite={this.props.sendInvite} />
+            <SendRequests sendRequest={this.props.sendRequest} />
+          </div>
+          <div className='new-requests'>
+            <ViewRequests requests={this.props.requests} acceptRequest={this.props.acceptRequest} />
+          </div>
         </div>
       </div>
     );

@@ -19,10 +19,8 @@ class ViewRequests extends Component {
       });
     }
     return (
-      <div>
-        <div className='view-requests'>
-          {requests}
-        </div>
+      <div className='view-requests'>
+        {requests}
       </div>
     );
   }

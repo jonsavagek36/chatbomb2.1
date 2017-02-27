@@ -8,7 +8,9 @@ class ChatBody extends Component {
 
   render() {
     return (
-      <div className='chat-body'>
+      <div className='chat-box'>
+        <div className='chat-messages'>
+        </div>
       </div>
     );
   }

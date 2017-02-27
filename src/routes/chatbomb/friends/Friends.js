@@ -11,16 +11,23 @@ class Friends extends Component {
   render() {
     let online_friends = null;
     if (this.props.online_friends !== undefined) {
+      let selectFriend = () => {
+        this.props.selectFriend(friend);
+      }
       online_friends = this.props.online_friends.map((friend, idx) => {
-        return <Nameplate friend={friend} key={idx} />;
+        return <Nameplate friend={friend} selectFriend={selectFriend} key={idx} />;
       });
     }
     return (
-      <div>
-        <div className='page-title'>Friends</div>
-        <div className='page-body'>
-          <div className='friends-list'>
-            {online_friends}
+      <div className='main-body'>
+        <div className='page-title'>
+          <div className='banner'>Friends</div>
+        </div>
+        <div className='friends-body'>
+          <div className='online-friends'>
+            <div className='friends-list'>
+              {online_friends}
+            </div>
           </div>
         </div>
       </div>

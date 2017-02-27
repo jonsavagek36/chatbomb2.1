@@ -9,7 +9,7 @@ class SendRequests extends Component {
   render() {
     return (
       <div>
-        <div className='send-requests'>
+        <div className='request-send'>
           <div className='form-title'>Send Request</div>
           <div className='form-box'>
             <div className='form-row'>

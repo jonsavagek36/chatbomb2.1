@@ -8,9 +8,9 @@ class ChatSend extends Component {
 
   render() {
     return (
-      <div className='chat-send'>
-        <div className='send-box'><input type='text' id='send-box' /></div>
-        <div className='send-btn'><input type='submit' value='Send' /></div>
+      <div class='chat-send'>
+        <div class='send-input'><input type='text' /></div>
+        <div class='send-button'><input type='submit' value='Send' /></div>
       </div>
     );
   }
