@@ -8,9 +8,7 @@ class ViewProfile extends Component {
 
   render() {
     return (
-      <div>
-        <div className='view-profile'>
-        </div>
+      <div className='view-profile'>
       </div>
     );
   }

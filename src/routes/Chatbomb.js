@@ -14,13 +14,15 @@ class Chatbomb extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: null,
+      view: 'requests',
       profile: {},
       friends: [],
       online_friends: [],
+      selected_friend: {},
       requests: []
     };
     this.updateView = this.updateView.bind(this);
+    this.selectFriend = this.selectFriend.bind(this);
   }
 
   componentDidMount() {
@@ -41,6 +43,13 @@ class Chatbomb extends Component {
     this.setState({ view: newView });
   }
 
+  selectFriend(friend) {
+    this.setState({
+      view: 'chat',
+      selectedFriend: friend
+    });
+  }
+
   render() {
     let view;
     if (this.state.view == 'profile') {
@@ -48,18 +57,16 @@ class Chatbomb extends Component {
     } else if (this.state.view == 'requests') {
       view = <Requests requests={this.state.requests} sendRequest={sendRequest} sendInvite={sendInvite} acceptRequest={acceptRequest} />;
     } else if (this.state.view == 'friends') {
-      view = <Friends friends={this.state.friends} online_friends={this.state.online_friends} />;
+      view = <Friends friends={this.state.friends} online_friends={this.state.online_friends} selectFriend={this.selectFriend} />;
     } else if (this.state.view == 'chat') {
       view = <Chat />;
     } else {
       view = null;
     }
     return (
-      <div>
+      <div className='inside-body'>
         <Menubar updateView={this.updateView} />
-        <div className='chatbomb-body'>
-          {view}
-        </div>
+        {view}
       </div>
     );
   }

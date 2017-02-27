@@ -10,14 +10,13 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className='app-body'>
         <Topbar></Topbar>
-        <div className='app-body'>
           {this.props.children}
-        </div>
       </div>
     );
   }
 }
 
 export default App;
+ 
