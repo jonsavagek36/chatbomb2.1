@@ -35,6 +35,7 @@ class Chatbomb extends Component {
     this.refreshFriends = this.refreshFriends.bind(this);
     this.friendsRefreshed = this.friendsRefreshed.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+    this.receiveMessage = this.receiveMessage.bind(this);
   }
 
   componentDidMount() {
@@ -74,7 +75,9 @@ class Chatbomb extends Component {
     let id = this.state.profile.id;
     socket.emit('user:init', { user_id: id });
     this.refreshId = setInterval(this.refreshFriends, 1000);
-    this.state.conversations.setProfile(this.state.profile);
+    let conversations = this.state.conversations;
+    conversations.setProfile(this.state.profile);
+    this.setState({ conversations: conversations });
   }
 
   refreshFriends() {
@@ -87,7 +90,8 @@ class Chatbomb extends Component {
     this.setState({ online_friends: data.online_friends });
   }
 
-  sendMessage() {
+  sendMessage(event) {
+    event.preventDefault();
     let textNode = document.getElementById('send-text');
     let friend = this.state.selected_friend;
     if (textNode.value != '' || textNode.value != null) {
@@ -120,8 +124,23 @@ class Chatbomb extends Component {
 
   takeRequest(request) {
     acceptRequest(request);
-    let new_friends = getFriends();
-    this.setState({ friends: new_friends });
+    let token = sessionStorage.getItem('token');
+    let myHeaders = new Headers();
+    myHeaders.append('x-access-token', token);
+    fetch('/api/v1/users/friends', {
+      method: 'GET',
+      headers: myHeaders
+    })
+      .then(response => {
+        if (response.ok) {
+          return response;
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        let friend_list = data.friends;
+        this.setState({ friends: friend_list });
+      })
   }
 
   render() {
@@ -133,7 +152,7 @@ class Chatbomb extends Component {
     } else if (this.state.view == 'friends') {
       view = <Friends friends={this.state.friends} online_friends={this.state.online_friends} selectFriend={this.selectFriend} />;
     } else if (this.state.view == 'chat') {
-      view = <Chat selectedFriend={this.state.selectedFriend} />;
+      view = <Chat selectedFriend={this.state.selectedFriend} conversations={this.state.conversations} sendMessage={this.sendMessage} />;
     } else {
       view = null;
     }

@@ -10,7 +10,7 @@ class ChatSend extends Component {
     return (
       <div class='chat-send'>
         <div class='send-input'><input type='text' id='send-text' /></div>
-        <div class='send-button'><input type='submit' value='Send' /></div>
+        <div class='send-button'><input type='submit' value='Send' onClick={this.props.sendMessage} /></div>
       </div>
     );
   }
