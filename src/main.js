@@ -10,7 +10,7 @@ import Chatbomb from './routes/Chatbomb';
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/app" component={App}>
-      <IndexRoute path="/app/login" component={Login} />
+      <IndexRoute component={Login} />
       <Route path="/app/signup" component={Signup} />
       <Route path="/app/chatbomb" component={Chatbomb} />
     </Route>

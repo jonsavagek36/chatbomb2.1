@@ -43,7 +43,14 @@ exports.login = function(req, res) {
 }
 
 exports.profile = function(req, res) {
-  res.json({ profile: req.user });
+  let user = {
+    id: req.user.id,
+    email: req.user.email,
+    screen_name: req.user.screen_name,
+    friends: req.user.friends,
+    requests: req.user.requests
+  };
+  res.json({ profile: user });
 }
 
 exports.friendlist = function(req, res) {

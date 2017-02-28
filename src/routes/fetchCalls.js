@@ -46,7 +46,6 @@ exports.loginUser = function() {
     email: emailNode.value,
     password: passNode.value
   };
-  console.log(fetchBody);
   let myHeaders = new Headers();
   myHeaders.append('Content-Type','application/json');
   fetch('/api/v1/users/log_in', {
@@ -63,7 +62,6 @@ exports.loginUser = function() {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       sessionStorage.setItem('token', data.token);
       browserHistory.push('/app/chatbomb');
     })
@@ -103,12 +101,11 @@ exports.getProfile = function() {
   })
     .then(response => {
       if (response.ok) {
-        return response;
+        return response.json();
       } else {
         console.log('Failed to get profile');
       }
     })
-    .then(response => response.json())
     .then(data => {
       let id = data.profile.id;
       let email = data.profile.email;

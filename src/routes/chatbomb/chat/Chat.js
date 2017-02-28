@@ -12,16 +12,17 @@ class Chat extends Component {
   }
 
   render() {
+    let conversation = this.props.conversations[this.props.selected_friend.id];
     return (
       <div className='main-body'>
         <div className='page-title'>
           <div className='banner'></div>
         </div>
         <div className='chat-body'>
-          <ChatHeader />
-          <ChatBody />
-          <LiveChat />
-          <ChatSend />
+          <ChatHeader selected_friend={this.props.selected_friend} />
+          <ChatBody conversation={conversation} />
+          <LiveChat live_chat={this.props.live_chat} />
+          <ChatSend sendMessage={this.props.sendMessage} />
         </div>
       </div>
     );
