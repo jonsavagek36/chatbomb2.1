@@ -23,7 +23,8 @@ class Chatbomb extends Component {
       online_friends: [],
       selected_friend: {},
       requests: [],
-      conversations: conversations
+      conversations: conversations,
+      live_chat: ''
     };
     this.refreshId = '';
 
@@ -36,6 +37,7 @@ class Chatbomb extends Component {
     this.friendsRefreshed = this.friendsRefreshed.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.receiveMessage = this.receiveMessage.bind(this);
+    this.receiveLive = this.receiveLive.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +70,8 @@ class Chatbomb extends Component {
     // SOCK EVENTS
     socket.on('friends:refreshed', this.friendsRefreshed);
     socket.on('receive:message', this.receiveMessage);
+    socket.on('receive:live', this.receiveLive);
+    socket.on('friend:offline', this.friendOffline);
   }
 
   // SOCK FUNCTIONS
@@ -108,6 +112,29 @@ class Chatbomb extends Component {
     let conversations = this.state.conversations;
     conversations.receiveMessage(data.friend, data.message);
     this.setState({ conversations: conversations });
+  }
+
+  sendLive() {
+    let me = this.state.profile;
+    let target = this.state.selectedFriend;
+    let textNode = document.getElementById('send-text');
+    let live_msg = {
+      sender_id: me.id,
+      target_id: target.id,
+      live_update: textNode.value
+    };
+    socket.emit('send:live', live_msg);
+  }
+
+  receiveLive(data) {
+    if (data.sender_id == this.state.selected_friend.id) {
+      this.setState({ live_chat: data.live_update });
+    }
+  }
+
+  friendOffline() {
+    let msgs = document.getElementById('chat-ul');
+    msgs.innerHTML += `<li>FRIEND OFFLINE</li>`;
   }
 
   // REACT FUNCTIONS
@@ -152,7 +179,7 @@ class Chatbomb extends Component {
     } else if (this.state.view == 'friends') {
       view = <Friends friends={this.state.friends} online_friends={this.state.online_friends} selectFriend={this.selectFriend} />;
     } else if (this.state.view == 'chat') {
-      view = <Chat selectedFriend={this.state.selectedFriend} conversations={this.state.conversations} sendMessage={this.sendMessage} />;
+      view = <Chat selectedFriend={this.state.selectedFriend} conversations={this.state.conversations} sendMessage={this.sendMessage} live_chat={this.state.live_chat} />;
     } else {
       view = null;
     }

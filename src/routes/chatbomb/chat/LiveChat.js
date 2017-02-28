@@ -9,6 +9,7 @@ class LiveChat extends Component {
   render() {
     return (
       <div className='live-chat'>
+        {this.props.live_chat}
       </div>
     );
   }

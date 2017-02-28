@@ -21,7 +21,7 @@ class Chat extends Component {
         <div className='chat-body'>
           <ChatHeader selected_friend={this.props.selected_friend} />
           <ChatBody conversation={conversation} />
-          <LiveChat />
+          <LiveChat live_chat={this.props.live_chat} />
           <ChatSend sendMessage={this.props.sendMessage} />
         </div>
       </div>

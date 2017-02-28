@@ -19,11 +19,20 @@ exports.init = function(sio, socket) {
   });
 
   socket.on('send:message', function(data) {
-    if (clients[data.friend.id] == undefined) { 
+    if (clients[data.friend.id] == undefined) {
       socket.emit('friend:offline');
     } else {
       let target_sock = clients[data.friend.id];
       io.to(target_sock).emit('receive:message', { friend: data.friend, message: data.message });
+    }
+  });
+
+  socket.on('send:live', function(data) {
+    if (clients[data.target.id] == undefined) {
+      socket.emit('friend:offline');
+    } else {
+      let target_sock = clients[data.target.id];
+      io.to(target_sock).emit('receive:live', data);
     }
   });
 

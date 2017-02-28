@@ -13,7 +13,7 @@ class ChatBody extends Component {
     return (
       <div className='chat-box'>
         <div className='chat-messages'>
-          <ul className='no-bullets'>
+          <ul className='no-bullets' id='chat-ul'>
             {messages}
           </ul>
         </div>
