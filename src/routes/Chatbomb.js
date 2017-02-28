@@ -34,6 +34,7 @@ class Chatbomb extends Component {
     this.userInit = this.userInit.bind(this);
     this.refreshFriends = this.refreshFriends.bind(this);
     this.friendsRefreshed = this.friendsRefreshed.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +66,7 @@ class Chatbomb extends Component {
       })
     // SOCK EVENTS
     socket.on('friends:refreshed', this.friendsRefreshed);
+    socket.on('receive:message', this.receiveMessage);
   }
 
   // SOCK FUNCTIONS
@@ -83,6 +85,25 @@ class Chatbomb extends Component {
 
   friendsRefreshed(data) {
     this.setState({ online_friends: data.online_friends });
+  }
+
+  sendMessage() {
+    let textNode = document.getElementById('send-text');
+    let friend = this.state.selected_friend;
+    if (textNode.value != '' || textNode.value != null) {
+      let conversations = this.state.conversations;
+      if(conversations.sendMessage(friend, textNode.value)) {
+        socket.emit('send:message', { target: friend, message: textNode.value });
+        this.setState({ conversations: conversations });
+      }
+    }
+    textNode.value = '';
+  }
+
+  receiveMessage(data) {
+    let conversations = this.state.conversations;
+    conversations.receiveMessage(data.friend, data.message);
+    this.setState({ conversations: conversations });
   }
 
   // REACT FUNCTIONS

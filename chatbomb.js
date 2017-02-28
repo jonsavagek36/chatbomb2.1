@@ -18,6 +18,15 @@ exports.init = function(sio, socket) {
     socket.emit('friends:refreshed', { online_friends: on_friends });
   });
 
+  socket.on('send:message', function(data) {
+    if (clients[data.friend.id] == undefined) { 
+      socket.emit('friend:offline');
+    } else {
+      let target_sock = clients[data.friend.id];
+      io.to(target_sock).emit('receive:message', { friend: data.friend, message: data.message });
+    }
+  });
+
   socket.once('disconnect', function() {
     let user_id = getKey(socket.id, clients);
     delete clients[user_id];
