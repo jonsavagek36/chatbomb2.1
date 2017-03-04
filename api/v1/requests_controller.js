@@ -13,9 +13,6 @@ exports.send_request = function(req, res) {
         user.requests[last].request_id = req.user.id;
         user.requests[last].request_email = req.user.email;
         user.requests[last].request_name = req.user.screen_name;
-        if (req.user.avatar_url !== undefined) {
-          user.requests[last].request_avatar = req.user.avatar_url;
-        }
         user.save(function(err) {
           if (err) {
             res.json({ message: err.message });
@@ -34,9 +31,6 @@ exports.send_request = function(req, res) {
         user.requests[last].request_id = req.user.id;
         user.requests[last].request_email = req.user.email;
         user.requests[last].request_name = req.user.screen_name;
-        if (req.user.avatar_url !== undefined) {
-          user.requests[last].request_avatar = req.user.avatar_url;
-        }
         user.save(function(err) {
           if (err) {
             res.json({ message: err.message });
@@ -62,9 +56,6 @@ exports.accept_request = function(req, res) {
       user.friends[last].friend_id = req.body.request.request_id;
       user.friends[last].friend_email = req.body.request.request_email;
       user.friends[last].friend_name = req.body.request.request_name;
-      if (req.body.request.request_avatar !== undefined) {
-        user.friends[last].friend_avatar = req.body.request.request_avatar;
-      }
       user.save(function(err) {
         if (err) {
           res.json({ message: err.message });
@@ -81,9 +72,6 @@ exports.accept_request = function(req, res) {
           friend.friends[last].friend_id = user.id;
           friend.friends[last].friend_email = user.email;
           friend.friends[last].friend_name = user.screen_name;
-          if (user.avatar_url !== undefined) {
-            friend.friends[last].friend_avatar = user.avatar_url;
-          }
           friend.save(function(err) {
             if (err) throw err;
           });

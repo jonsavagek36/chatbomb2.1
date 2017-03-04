@@ -4,24 +4,22 @@ let bcrypt = require('bcrypt');
 let SALT_WORK_FACTOR = 10;
 
 let FriendSchema = new Schema({
-  friend_id: { type: String, required: true, index: { unique: true } },
-  friend_email: { type: String, required: true, index: { unique: true } },
-  friend_name: { type: String, required: true, index: { unique: true } },
-  friend_avatar: { type: String, required: false }
+  friend_id: { type: String, required: true },
+  friend_email: { type: String, required: true },
+  friend_name: { type: String, required: true }
 });
 
 let RequestSchema = new Schema({
-  request_id: { type: String, required: true, index: { unique: true } },
-  request_email: { type: String, required: true, index: { unique: true } },
-  request_name: { type: String, required: true, index: { unique: true } },
-  request_avatar: { type: String, required: false }
-})
+  request_id: { type: String, required: true },
+  request_email: { type: String, required: true },
+  request_name: { type: String, required: true }
+});
 
 let UserSchema = new Schema({
-  email: { type: String, required: true, index: { unique: true } },
-  screen_name: { type: String, required: true, index: { unique: true } },
+  email: { type: String, required: true, unique: true },
+  screen_name: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  avatar_url: { type: String, required: false },
+  locked: { type: Boolean },
   friends: [FriendSchema],
   requests: [RequestSchema]
 });
@@ -50,4 +48,4 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 mongoose.model('Friend', FriendSchema);
 mongoose.model('Request', RequestSchema);
 mongoose.model('User', UserSchema);
-mongoose.connect('mongodb://localhost:27017/chatbomb_dev');
+mongoose.connect(`mongodb://jonsavagek36:${process.env.MLAB_PASSWORD}@ds113680.mblab.com/chatbomb`);

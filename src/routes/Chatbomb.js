@@ -9,8 +9,7 @@ import Chat from './chatbomb/chat/Chat';
 import { getProfile, getFriends, getRequests, sendRequest, sendInvite, acceptRequest } from './fetchCalls';
 import Conversations from './Conversations';
 
-let socket = io.connect('http://localhost:5000');
-
+let socket = io.connect('https://chat-bomb.herokuapp.com');
 let conversations = new Conversations;
 
 class Chatbomb extends Component {
