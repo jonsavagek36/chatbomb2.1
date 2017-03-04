@@ -48,4 +48,4 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 mongoose.model('Friend', FriendSchema);
 mongoose.model('Request', RequestSchema);
 mongoose.model('User', UserSchema);
-mongoose.connect(`mongodb://jonsavagek36:${process.env.MLAB_PASSWORD}@ds113680.mblab.com/chatbomb`);
+mongoose.connect(`mongodb://jonsavagek36:${process.env.MLAB_PASSWORD}@ds113680.mblab.com:56789/chatbomb`);
