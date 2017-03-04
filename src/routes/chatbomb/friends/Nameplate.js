@@ -8,16 +8,16 @@ class Nameplate extends Component {
 
   render() {
     return (
-      <div>
-        <div className='name-plate' onClick={this.props.selectFriend}>
-          <div className='friend-avatar'>
-          </div>
-          <div className='friend-email'>
-          </div>
-          <div className='friend-name'>
-          </div>
-          <div className='new-message'>
-          </div>
+      <div className='name-plate' onClick={this.props.selectFriend}>
+        <div className='friend-avatar'>
+        </div>
+        <div className='friend-email'>
+          {this.props.friend.email}
+        </div>
+        <div className='friend-name'>
+          {this.props.friend.screen_name}
+        </div>
+        <div className='new-message'>
         </div>
       </div>
     );

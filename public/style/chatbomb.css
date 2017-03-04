@@ -101,19 +101,19 @@
 }
 
 .friend-avatar {
-
+  position: relative;
 }
 
 .friend-email {
-
+  position: relative;
 }
 
 .friend-name {
-
+  position: relative;
 }
 
 .new-message {
-
+  position: relative;
 }
 
 .profile-body {

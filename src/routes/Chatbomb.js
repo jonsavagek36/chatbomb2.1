@@ -10,7 +10,6 @@ import { getProfile, getFriends, getRequests, sendRequest, sendInvite, acceptReq
 import Conversations from './Conversations';
 
 let socket = io.connect('http://localhost:5000');
-
 let conversations = new Conversations;
 
 class Chatbomb extends Component {

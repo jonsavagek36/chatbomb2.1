@@ -12,7 +12,7 @@ class Chat extends Component {
   }
 
   render() {
-    let conversation = this.props.conversations[this.props.selected_friend.id];
+    let conversation = this.props.conversations.conversations[this.props.selected_friend.id];
     return (
       <div className='main-body'>
         <div className='page-title'>
