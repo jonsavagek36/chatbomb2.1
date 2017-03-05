@@ -9,6 +9,7 @@ Lots of changes from the original Chatbomb:<br>
 <li>Fixing numerous bugs</li>
 <li>Refactoring all of the React</li>
 <li>Better separation of duties</li>
+<li>Handling more events on the server-side</li>
 <li>More to come...</li>
 </ul>
 
