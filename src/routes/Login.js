@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 
-import { loginUser } from './fetchCalls';
+import { loginUser } from './exports/fetchCalls';
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+export default class Login extends Component {
   goSignup() {
     browserHistory.push('/app/signup');
   }
-
   render() {
     return (
       <div className='login-page'>
@@ -37,5 +31,3 @@ class Login extends Component {
     );
   }
 }
-
-export default Login;
