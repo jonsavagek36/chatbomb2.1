@@ -6,7 +6,7 @@ import Requests from './chatbomb/requests/Requests';
 import Friends from './chatbomb/friends/Friends';
 import Chat from './chatbomb/chat/Chat';
 
-import { sendInvite, sendRequest, acceptRequest } from './exports/fetchCalls';
+import { sendInvite, sendRequest, acceptRequest } from './fetchCalls';
 
 let socket = io.connect();
 
