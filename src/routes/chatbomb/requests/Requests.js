@@ -4,12 +4,10 @@ import SendInvite from './SendInvite';
 import SendRequests from './SendRequests';
 import ViewRequests from './ViewRequests';
 
-class Requests extends Component {
+export default class Requests extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
-
   render() {
     return (
       <div className='main-body'>
@@ -22,12 +20,14 @@ class Requests extends Component {
             <SendRequests sendRequest={this.props.sendRequest} />
           </div>
           <div className='new-requests'>
-            <ViewRequests requests={this.props.requests} acceptRequest={this.props.acceptRequest} />
+            <ViewRequests
+              requests={this.props.requests}
+              acceptRequest={this.props.acceptRequest}
+              updateFriends={this.props.updateFriends}
+                />
           </div>
         </div>
       </div>
     );
   }
 }
-
-export default Requests;
