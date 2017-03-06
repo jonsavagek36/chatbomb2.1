@@ -1,19 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class ChatSend extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <div class='chat-send'>
-        <div class='send-input'><input type='text' id='send-text' /></div>
-        <div class='send-button'><input type='submit' value='Send' onClick={this.props.sendMessage} /></div>
-      </div>
-    );
-  }
+const ChatSend = (props) => {
+  return (
+    <div className='chat-send'>
+      <div className='send-input'><input type='text' id='send-text' onChange={props.sendLiveChat} /></div>
+      <div className='send-button'><input type='submit' value='Send' onClick={props.sendMessage} /></div>
+    </div>
+  );
 }
 
 export default ChatSend;
