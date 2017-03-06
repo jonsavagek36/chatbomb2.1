@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 
-import { signUp } from './exports/fetchCalls';
+import { signUp } from './fetchCalls';
 
 export default class Signup extends Component {
   goLogin() {
