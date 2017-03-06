@@ -2,7 +2,7 @@ let passport = require('passport');
 let passportJWT = require('passport-jwt');
 let mongoose = require('mongoose');
 let User = mongoose.model('User');
-let cfg = require('./config/config.js');
+let cfg = require('./config/config');
 let ExtractJwt = passportJWT.ExtractJwt;
 let Strategy = passportJWT.Strategy;
 
@@ -12,9 +12,9 @@ module.exports = function() {
     jwtFromRequest: ExtractJwt.fromHeader('x-access-token')
   };
   let strategy = new Strategy(params, function(payload, done) {
-    User.find({ _id: payload.id }, function(err, users) {
-      if (users) {
-        let user = users[0];
+    User.findOne({ _id: payload.id }, function(err, user) {
+      if (err) throw err;
+      if (user) {
         done(null, user);
       } else {
         done(null, new Error('Invalid user'));
