@@ -6,13 +6,11 @@ import Requests from './chatbomb/requests/Requests';
 import Friends from './chatbomb/friends/Friends';
 import Chat from './chatbomb/chat/Chat';
 
-import { getProfile, getFriends, getRequests, sendRequest, sendInvite, acceptRequest } from './fetchCalls';
-import Conversations from './Conversations';
+import { sendInvite, sendRequest, acceptRequest } from './exports/fetchCalls';
 
-let socket = io.connect('https://chat-bomb.herokuapp.com');
-let conversations = new Conversations;
+let socket = io.connect();
 
-class Chatbomb extends Component {
+export default class Chatbomb extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,166 +20,164 @@ class Chatbomb extends Component {
       online_friends: [],
       selected_friend: {},
       requests: [],
-      conversations: conversations,
-      live_chat: ''
-    };
-    this.refreshId = '';
-
+      live_chat: '',
+      conversations: {}
+    }
+    this.intervalId = '';
     this.updateView = this.updateView.bind(this);
-    this.selectFriend = this.selectFriend.bind(this);
-    this.takeRequest = this.takeRequest.bind(this);
-
+    this.updateFriends = this.updateFriends.bind(this);
     this.userInit = this.userInit.bind(this);
+    this.refreshRequest = this.refreshRequest.bind(this);
     this.refreshFriends = this.refreshFriends.bind(this);
-    this.friendsRefreshed = this.friendsRefreshed.bind(this);
+    this.selectFriend = this.selectFriend.bind(this);
+    this.sendLiveChat = this.sendLiveChat.bind(this);
+    this.receiveLiveChat = this.receiveLiveChat.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.receiveMessage = this.receiveMessage.bind(this);
-    this.receiveLive = this.receiveLive.bind(this);
   }
 
   componentDidMount() {
     let token = sessionStorage.getItem('token');
-    let myHeaders = new Headers();
-    myHeaders.append('x-access-token', token);
-    fetch('/api/v1/users/profile', {
-      method: 'GET',
-      headers: myHeaders
-    })
-      .then(response => {
-        if (response.ok) {
-          return response;
-        }
+    if (!token) {
+      browserHistory.push('/app');
+    } else {
+      let myHeaders = new Headers();
+      myHeaders.append('x-access-token', token);
+      fetch('/api/v1/users/profile', {
+        method: 'GET',
+        headers: myHeaders
       })
-      .then(response => response.json())
-      .then(data => {
-        let user = {
-          id: data.profile.id,
-          email: data.profile.email,
-          screen_name: data.profile.screen_name
-        };
-        this.setState({
-          profile: user,
-          friends: data.profile.friends,
-          requests: data.profile.requests
-        });
-        this.userInit();
-      })
-    // SOCK EVENTS
-    socket.on('friends:refreshed', this.friendsRefreshed);
-    socket.on('receive:message', this.receiveMessage);
-    socket.on('receive:live', this.receiveLive);
-    socket.on('friend:offline', this.friendOffline);
-  }
-
-  // SOCK FUNCTIONS
-  userInit() {
-    let id = this.state.profile.id;
-    socket.emit('user:init', { user_id: id });
-    this.refreshId = setInterval(this.refreshFriends, 1000);
-    let conversations = this.state.conversations;
-    conversations.setProfile(this.state.profile);
-    this.setState({ conversations: conversations });
-  }
-
-  refreshFriends() {
-    if (this.state.friends) {
-      socket.emit('refresh:friends', { friends: this.state.friends });
+        .then(response => {
+          if (response.ok) return response;
+        })
+        .then(response => response.json())
+        .then(data => {
+          let user = {
+            id: data.profile.id,
+            email: data.profile.email,
+            screen_name: data.profile.screen_name
+          };
+          this.setState({
+            profile: user,
+            friends: data.profile.friends,
+            requests: data.profile.requests
+          });
+          this.userInit();
+        })
     }
+
+    socket.on('friends:refreshed', this.refreshFriends);
+    socket.on('receive:live', this.receiveLiveChat);
+    socket.on('friend:offline', this.friendOffline);
+    socket.on('receive:message', this.receiveMessage);
   }
 
-  friendsRefreshed(data) {
+  userInit() {
+    socket.emit('user:init', { id: this.state.profile.id });
+    this.intervalId = setInterval(this.refreshRequest, 1000);
+  }
+
+  refreshRequest() {
+    socket.emit('refresh:friends', { friends: this.state.friends });
+  }
+
+  refreshFriends(data) {
     this.setState({ online_friends: data.online_friends });
   }
 
-  sendMessage(event) {
-    event.preventDefault();
+  updateView(newView) {
+    this.setState({ view: newView });
+  }
+
+  updateFriends(newFriends) {
+    this.setState({ friends: newFriends });
+  }
+
+  selectFriend(friend) {
+    this.setState({
+      selected_friend: friend,
+      view: 'chat',
+      live_chat: ''
+    });
+  }
+
+  sendLiveChat() {
     let textNode = document.getElementById('send-text');
-    let friend = this.state.selected_friend;
-    if (textNode.value != '' || textNode.value != null) {
-      let conversations = this.state.conversations;
-      if(conversations.sendMessage(friend, textNode.value)) {
-        socket.emit('send:message', { target: friend, message: textNode.value });
-        this.setState({ conversations: conversations });
-      }
-    }
-    textNode.value = '';
+    socket.emit('send:live', { friend: this.state.selected_friend, live_update: textNode.value });
   }
 
-  receiveMessage(data) {
-    let conversations = this.state.conversations;
-    conversations.receiveMessage(data.friend, data.message);
-    this.setState({ conversations: conversations });
-  }
-
-  sendLive() {
-    let me = this.state.profile;
-    let target = this.state.selectedFriend;
-    let textNode = document.getElementById('send-text');
-    let live_msg = {
-      sender_id: me.id,
-      target_id: target.id,
-      live_update: textNode.value
-    };
-    socket.emit('send:live', live_msg);
-  }
-
-  receiveLive(data) {
-    if (data.sender_id == this.state.selected_friend.id) {
+  receiveLiveChat(data) {
+    if (this.state.selected_friend.id == data.friend.id) {
       this.setState({ live_chat: data.live_update });
     }
   }
 
   friendOffline() {
-    let msgs = document.getElementById('chat-ul');
-    msgs.innerHTML += `<li>FRIEND OFFLINE</li>`;
+    let msg_list = document.getElementById('chat-ul');
+    msg_list.innerHTML = `<li>${this.state.selected_friend.screen_name} is offline</li>`;
   }
 
-  // REACT FUNCTIONS
-  updateView(newView) {
-    this.setState({ view: newView });
+  sendMessage(event) {
+    event.preventDefault();
+    let textNode = document.getElementById('send-text');
+    let conversations = this.state.conversations;
+    let code = this.state.selected_friend.id;
+    if (conversations[code] == undefined) {
+      conversations[code] = [];
+      conversations[code].push({
+        sender: this.state.profile,
+        message: textNode.value
+      });
+      socket.emit('send:message', { sender: this.state.profile, target: this.state.selected_friend, message: textNode.value });
+    } else {
+      let last = conversations[code].length - 1;
+      if (conversations[code][last].sender.id != this.state.profile.id) {
+        conversations[code].push({
+          sender: this.state.profile,
+          message: textNode.value
+        });
+        socket.emit('send:message', { sender: this.state.profile, target: this.state.selected_friend, message: textNode.value });
+      }
+    }
+    this.setState({ conversations: conversations });
+    textNode.value = '';
   }
 
-  selectFriend(friend) {
-    this.setState({
-      view: 'chat',
-      selectedFriend: friend
+  receiveMessage(data) {
+    let conversations = this.state.conversations;
+    let code = data.sender.id;
+    if (!conversations[code]) conversations[code] = [];
+    conversations[code].push({
+      sender: data.sender,
+      message: data.message
     });
-  }
-
-  takeRequest(request) {
-    acceptRequest(request);
-    let token = sessionStorage.getItem('token');
-    let myHeaders = new Headers();
-    myHeaders.append('x-access-token', token);
-    fetch('/api/v1/users/friends', {
-      method: 'GET',
-      headers: myHeaders
-    })
-      .then(response => {
-        if (response.ok) {
-          return response;
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        let friend_list = data.friends;
-        this.setState({ friends: friend_list });
-      })
+    this.setState({ conversations: conversations });
+    if (data.sender.id == this.state.selected_friend.id) {
+      this.setState({ live_chat: '' });
+    }
   }
 
   render() {
-    let view;
-    if (this.state.view == 'profile') {
-      view = <Profile profile={this.state.profile} />;
-    } else if (this.state.view == 'requests') {
-      view = <Requests requests={this.state.requests} sendRequest={sendRequest} sendInvite={sendInvite} acceptRequest={this.takeRequest} />;
-    } else if (this.state.view == 'friends') {
-      view = <Friends friends={this.state.friends} online_friends={this.state.online_friends} selectFriend={this.selectFriend} />;
-    } else if (this.state.view == 'chat') {
-      view = <Chat selectedFriend={this.state.selectedFriend} conversations={this.state.conversations} sendMessage={this.sendMessage} live_chat={this.state.live_chat} />;
-    } else {
-      view = null;
-    }
+    let view = null;
+    if (this.state.view == 'profile') view = <Profile profile={this.state.profile} />;
+    if (this.state.view == 'requests') view = <Requests
+                                                requests={this.state.requests}
+                                                sendInvite={sendInvite}
+                                                sendRequest={sendRequest}
+                                                acceptRequest={acceptRequest}
+                                                updateFriends={this.updateFriends}
+                                                 />;
+    if (this.state.view == 'friends') view = <Friends
+                                              online_friends={this.state.online_friends}
+                                              selectFriend={this.selectFriend}
+                                                 />;
+    if (this.state.view == 'chat') view = <Chat
+                                            selected_friend={this.state.selected_friend}
+                                            sendLiveChat={this.sendLiveChat}
+                                            live_chat={this.state.live_chat}
+                                            sendMessage={this.sendMessage}
+                                            conversations={this.state.conversations}
+                                                 />;
     return (
       <div className='inside-body'>
         <Menubar updateView={this.updateView} />
@@ -191,4 +187,3 @@ class Chatbomb extends Component {
   }
 }
 
-export default Chatbomb;
