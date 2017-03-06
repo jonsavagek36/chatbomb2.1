@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 
-class Menubar extends Component {
+export default class Menubar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
-
-  render() {
+  render() { 
     let getProfile = () => {
       this.props.updateView('profile');
     }
@@ -32,4 +30,3 @@ class Menubar extends Component {
   }
 }
 
-export default Menubar;
