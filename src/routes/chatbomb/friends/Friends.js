@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 
 import Nameplate from './Nameplate';
 
-class Friends extends Component {
+export default class Friends extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
-
   render() {
     let online_friends = null;
     if (this.props.online_friends !== undefined) {
-      let selectFriend = () => {
-        this.props.selectFriend(friend);
-      }
       online_friends = this.props.online_friends.map((friend, idx) => {
+        let selectFriend = () => {
+          this.props.selectFriend(friend);
+        }
         return <Nameplate friend={friend} selectFriend={selectFriend} key={idx} />;
       });
     }
@@ -34,5 +32,3 @@ class Friends extends Component {
     );
   }
 }
-
-export default Friends;
