@@ -5,40 +5,35 @@ exports.init = function(sio, socket) {
   io = sio;
 
   socket.on('user:init', function(data) {
-    clients[data.user_id] = socket.id;
+    clients[data.id] = socket.id;
   });
 
   socket.on('refresh:friends', function(data) {
-    let on_friends = [];
+    let ref_friends = [];
     data.friends.forEach(friend => {
-      if (clients[friend.id] !== undefined) {
-        on_friends.push(friend);
-      }
+      if (clients[friend.id]) ref_friends.push(friend);
     });
-    socket.emit('friends:refreshed', { online_friends: on_friends });
-  });
-
-  socket.on('send:message', function(data) {
-    if (clients[data.friend.id] == undefined) {
-      socket.emit('friend:offline');
-    } else {
-      let target_sock = clients[data.friend.id];
-      io.to(target_sock).emit('receive:message', { friend: data.friend, message: data.message });
-    }
+    socket.emit('friends:refreshed', { online_friends: ref_friends });
   });
 
   socket.on('send:live', function(data) {
-    if (clients[data.target.id] == undefined) {
-      socket.emit('friend:offline');
+    let target_sock = clients[data.friend.id];
+    if (target_sock) {
+      io.to(target_sock).emit('receive:live', { friend: data.friend, live_update: data.live_update });
+    }
+  });
+
+  socket.on('send:message', function(data) {
+    let target_sock = clients[data.target.id];
+    if (target_sock) {
+      io.to(target_sock).emit('receive:message', data);
     } else {
-      let target_sock = clients[data.target.id];
-      io.to(target_sock).emit('receive:live', data);
+      socket.emit('friend:offline');
     }
   });
 
   socket.once('disconnect', function() {
-    let user_id = getKey(socket.id, clients);
-    delete clients[user_id];
+    delete clients[getKey(socket.id, clients)];
   });
 }
 
