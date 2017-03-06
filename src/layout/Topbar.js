@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 
-class Topbar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+export default class Topbar extends Component {
   render() {
     return (
       <div className='top-bar'>
@@ -18,7 +13,5 @@ class Topbar extends Component {
         </div>
       </div>
     );
-  } 
+  }
 }
-
-export default Topbar;
