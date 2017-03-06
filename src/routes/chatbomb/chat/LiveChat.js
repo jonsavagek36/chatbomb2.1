@@ -1,18 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class LiveChat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <div className='live-chat'>
-        {this.props.live_chat}
-      </div>
-    );
-  }
+const LiveChat = (props) => {
+  return (
+    <div className='live-chat'>
+      {props.live_chat}
+    </div>
+  );
 }
 
 export default LiveChat;
