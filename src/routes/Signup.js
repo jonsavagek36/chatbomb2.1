@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 
-import { signUp } from './fetchCalls';
+import { signUp } from './exports/fetchCalls';
 
-class Signup extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  goBack() {
+export default class Signup extends Component {
+  goLogin() {
     browserHistory.push('/app');
   }
-
   render() {
     return (
       <div className='signup-page'>
@@ -38,8 +32,8 @@ class Signup extends Component {
           </div>
           <div className='form-message' id='password-message'></div>
           <div className='form-buttons'>
-            <div className='signup-btn' onClick={signUp}><button>Sign Up</button></div>
-            <div className='login-btn'><button onClick={this.goBack}>Back</button></div>
+            <div className='signup-btn'><button onClick={signUp}>Sign Up</button></div>
+            <div className='login-btn'><button onClick={this.goLogin}>Back</button></div>
           </div>
           <div className='form-message' id='signup-message'></div>
         </div>
@@ -47,5 +41,3 @@ class Signup extends Component {
     );
   }
 }
-
-export default Signup;
